@@ -1,11 +1,20 @@
 {
   "user": [
     {
-      "name": "Rishi",
-      "email": "rishi@cloudin.email",
-      "phone": "9361087223",
-      "country": "fesf",
-      "id": 6
+      "0": {
+        "0": {
+          "0": {
+            "name": "Rishi",
+            "email": "rishi@cloudin.email",
+            "phone": "1234567876",
+            "country": "fesf",
+            "id": 1
+          },
+          "id": 1
+        },
+        "id": 1
+      },
+      "id": 1
     }
   ]
 }

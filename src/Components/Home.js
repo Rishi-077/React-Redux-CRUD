@@ -86,10 +86,17 @@ function Home ()
 
 	// update
 
-	function targetUpdateId ( id )
+
+	function targetUpdateId ( id, data )
 	{
 		axios
-			.put( `http://localhost:3000/user/${ id }` )
+			.put( `http://localhost:3000/user/${ id }`,
+				{
+					name: data.name,
+					email: data.email,
+					phone: data.phone,
+					country: data.country,
+				} )
 			.then( res =>
 			{
 				console.log( 'success', res );

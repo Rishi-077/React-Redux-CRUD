@@ -16,6 +16,8 @@ function Navbar ()
             <div className="navbar-nav">
               <NavLink to="/" className="nav-link">Crud</NavLink>
               <NavLink to="/Cart" className="nav-link ">Cart</NavLink>
+              <NavLink to="/Contact" className="nav-link ">Contact</NavLink>
+
             </div>
           </div>
         </div>

@@ -9,13 +9,15 @@ function Home ()
 		trigger,
 		handleSubmit,
 		formState: { errors },
+		setValue,
+		getValues,
 		reset
 	} = useForm();
 
 	const [ user, setUser ] = useState( {} );
 	const [ data, setData ] = useState( [] );
 
-	// edit user
+	const [ id, setId ] = useState();
 
 	function handleChange ( e )
 	{
@@ -27,14 +29,14 @@ function Home ()
 	}
 
 	// get method
+
 	function getUsers ()
 	{
 		axios
-			.get( `http://localhost:3000/user` )
+			.get( `http://localhost:3004/user` )
 			.then( res =>
 			{
 				setData( res.data );
-				// setUsersUpdate(res.data);
 			} )
 			.catch( err =>
 			{
@@ -52,7 +54,7 @@ function Home ()
 	function onSubmit ( user )
 	{
 		axios
-			.post( `http://localhost:3000/user`, user )
+			.post( `http://localhost:3004/user`, user )
 			.then( res =>
 			{
 				console.log( 'success', res );
@@ -62,16 +64,37 @@ function Home ()
 			{
 				console.log( err );
 			} );
-		getUsers();
+		// getUsers();
 
 		reset();
 	}
+
+
+	// Update Method
+
+	function onUpdate ()
+	{
+		axios
+			.put( `http://localhost:3004/user/${ id }`, getValues() )
+			.then( res =>
+			{
+				console.log( 'success', res );
+				getUsers();
+			} )
+			.catch( err =>
+			{
+				console.log( err );
+			} );
+
+		reset();
+	}
+
 
 	// delete method
 
 	const deleteContact = id =>
 	{
-		const request = axios.delete( `http://localhost:3000/user/${ id }` );
+		const request = axios.delete( `http://localhost:3004/user/${ id }` );
 		request
 			.then( response =>
 			{
@@ -84,30 +107,19 @@ function Home ()
 			} );
 	};
 
-	// update
 
 
-	function targetUpdateId ( id, data )
+
+
+	function selectUser ( update )
 	{
-		axios
-			.put( `http://localhost:3000/user/${ id }`,
-				{
-					name: data.name,
-					email: data.email,
-					phone: data.phone,
-					country: data.country,
-				} )
-			.then( res =>
-			{
-				console.log( 'success', res );
-			} )
-			.catch( err =>
-			{
-				console.log( err );
-			} );
 
+		setId( update.id );
+		setValue( 'name', update.name );
+		setValue( 'email', update.email );
+		setValue( 'phone', update.phone );
+		setValue( 'country', update.country );
 	}
-
 
 
 
@@ -234,15 +246,19 @@ function Home ()
 					</div>
 				</div>
 
-				<button type="submit" className="btn btn-primary mt-5">
+				<button type="submit" className="btn btn-primary mt-5 me-5">
 					Submit
+				</button>
+
+				<button className="btn btn-success mt-5" type='button' onClick={onUpdate}>
+					update
 				</button>
 			</form>
 
 			{/* table */}
 
 			<div>
-				<table class="table table-dark table-hover mt-5">
+				<table className="table table-dark table-hover mt-5">
 					<thead>
 						<tr>
 							<th scope="col" className="col">
@@ -296,143 +312,18 @@ function Home ()
 										</button>
 									</td>
 									<td className="col">
-										<button className="btn btn-success" onClick={targetUpdateId( data.id )}>Edit</button>
+										<button className="btn btn-success" onClick={() =>
+										{
+											selectUser( data );
+										}}
+										>Edit</button>
 									</td>
 								</tr>
 							);
 						} )}
 					</tbody>
 				</table>
-			</div>
-
-			{/* update user */}
-			{/* 
-			<form className="mt-5" onSubmit={e => handleSubmit(onSubmitUpdate(e))}>
-				<div className="row">
-					<div className="col-6 form-group">
-						<div className="form-floating mb-3">
-							<input
-								name="name"
-								value={name}
-								type="text"
-								className="form-control"
-								id="fName"
-								placeholder="name@example.com"
-								onChange={e => setName(e.target.value)}
-								{...register('name', {
-									required: 'Name is required',
-									pattern: {
-										value: /^([a-zA-Z ]){2,30}$/,
-										message: 'Value is Invalid'
-									}
-								})}
-								onKeyUp={() => {
-									trigger('name');
-								}}
-							/>
-							<label>Name</label>
-							{errors.name &&
-								<small className="text-danger">
-									{errors.name.message}{' '}
-								</small>}
-						</div>
-						<div className="form-floating">
-							<input
-								name="email"
-								value={email}
-								type="email"
-								className="form-control"
-								id="email"
-								placeholder="Email Address"
-								onChange={e => setEmail(e.target.value)}
-								{...register('email', {
-									required: 'Email is required',
-									pattern: {
-										value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-										message: 'Value is Invalid'
-									}
-								})}
-								onKeyUp={() => {
-									trigger('email');
-								}}
-							/>
-							<label>Email Address</label>
-							{errors.email &&
-								<small className="text-danger">
-									{errors.email.message}{' '}
-								</small>}
-						</div>
-					</div>
-
-					<div className="col-6 form-group">
-						<div className="form-floating mb-3">
-							<input
-								type="tel"
-								value={phone}
-								className="form-control"
-								id="phone"
-								maxLength={10}
-								placeholder="Phone no"
-								name="phone"
-								onChange={e => setPhone(e.target.value)}
-								{...register('phone', {
-									required: 'Phone is required',
-									pattern: {
-										value: /^(\+\d{1,3}[- ]?)?\d{10}$/,
-										message: 'Value is Invalid'
-									}
-								})}
-								onKeyUp={() => {
-									trigger('phone');
-								}}
-								onKeyPress={event => {
-									if (!/[0-9]/.test(event.key)) {
-										event.preventDefault();
-									}
-								}}
-							/>
-							<label>Phone no</label>
-							{errors.phone &&
-								<small className="text-danger">
-									{errors.phone.message}{' '}
-								</small>}
-						</div>
-						<div className="form-floating">
-							<input
-								name="country"
-								value={country}
-								type="country"
-								className="form-control"
-								id="country"
-								placeholder="Enter Your Country"
-								onChange={e => setCountry(e.target.value)}
-								{...register('country', {
-									required: 'Country is required',
-									pattern: {
-										value: /^([a-zA-Z ]){2,30}$/,
-										message: 'Value is Invalid'
-									}
-								})}
-								onKeyUp={() => {
-									trigger('country');
-								}}
-							/>
-							<label>Enter Your Country</label>
-							{errors.country &&
-								<small className="text-danger">
-									{errors.country.message}{' '}
-								</small>}
-						</div>
-					</div>
-				</div>
-
-				<button
-					type="submit"
-					className="btn btn-primary mt-5"
-					onclick={updateUser}>
-					Update
-				</button>
-			</form> */}
+			</div>;
 		</section >
 	);
 }

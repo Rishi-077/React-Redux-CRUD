@@ -1,18 +1,3 @@
 {
-  "user": [
-    {
-      "name": "Rishi",
-      "email": "rishi@cloudin.email",
-      "phone": "1234567876",
-      "country": "india",
-      "id": 2
-    },
-    {
-      "name": "Rishi",
-      "email": "rishi@cloudin.email",
-      "phone": "1234567876",
-      "country": "fef",
-      "id": 3
-    }
-  ]
+  "user": []
 }

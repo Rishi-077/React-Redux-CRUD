@@ -125,6 +125,7 @@ function Home ()
 
 	return (
 		<section className="container">
+			<h1>Home</h1>
 			<form className="mt-5" onSubmit={handleSubmit( onSubmit )}>
 				<div className="row">
 					<div className="col-6 form-group">
@@ -323,9 +324,13 @@ function Home ()
 						} )}
 					</tbody>
 				</table>
-			</div>;
+			</div>
 		</section >
 	);
 }
 
 export default Home;
+
+
+
+// json-server --watch db.json --port 3004

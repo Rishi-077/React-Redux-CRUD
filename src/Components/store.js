@@ -1,17 +1,16 @@
 import { createStore, applyMiddleware } from "redux";
-import cakeReducer from "./Cart-redux/Redux/cartReducer";
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { combineReducers } from "redux";
+import thunk from "redux-thunk";
+import rootReducers from './Form-Redux/Redux/Reducers';
 
 
-const rootReducer = combineReducers( {
-  cake: cakeReducer,
+const initialState = {
 
-} );
-const store = createStore( rootReducer, composeWithDevTools(
-  applyMiddleware() ) );
+};
 
-// console.log( "initialState", store.getState() );
+const middleware = [ thunk ];
+
+const store = createStore( rootReducers, initialState, composeWithDevTools( applyMiddleware( ...middleware ) ) );
 
 
 export default store;

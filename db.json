@@ -1,3 +1,32 @@
 {
-  "user": []
+  "user": [
+    {
+      "name": "dsf",
+      "email": "eve.holt@reqres.in",
+      "phone": "6789765456",
+      "country": "kkkkkk",
+      "id": 1
+    },
+    {
+      "name": "dsf",
+      "email": "eve.holt@reqres.in",
+      "phone": "6789765456",
+      "country": "mefse",
+      "id": 2
+    },
+    {
+      "name": "dsf",
+      "email": "eve.holt@reqres.in",
+      "phone": "6789765456",
+      "country": "rdrg",
+      "id": 3
+    },
+    {
+      "name": "dsf",
+      "email": "eve.holt@reqres.in",
+      "phone": "6789765456",
+      "country": "rdrg",
+      "id": 4
+    }
+  ]
 }

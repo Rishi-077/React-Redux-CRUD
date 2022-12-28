@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ADD_USER, DELETE_USER, GET_USERS } from '../Redux/FormType';
+import { ADD_USER, DELETE_USER, EDIT_USER, GET_USERS } from '../Redux/FormType';
 
 
 export const getUser = () => async ( dispatch ) =>
@@ -56,9 +56,36 @@ export const deleteUser = ( id ) => async ( dispatch ) =>
     console.log( id );
     dispatch( {
       type: DELETE_USER,
-      payload: {id},
+      payload: { id },
     } );
     return Promise.resolve( res );
+  } catch ( e )
+  {
+    console.log( e );
+  }
+};
+
+
+
+export const editUser = ( id, data ) => ( dispatch ) =>
+{
+  console.warn( id );
+
+  try
+  {
+    const res = axios.put( `http://localhost:3004/user/${ id.id }`, data );
+    // const merged = {
+    //   ...id,
+    //   ...data
+    // };
+    // console.error( merged );
+
+    dispatch( {
+      type: EDIT_USER,
+      payload: data,
+    } );
+
+    return Promise.resolve( res.data );
   } catch ( e )
   {
     console.log( e );

@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { addUser, deleteUser, getUser } from './FormAction';
+import { addUser, deleteUser, getUser, editUser } from './FormAction';
 
 function Form ()
 {
@@ -30,7 +30,6 @@ function Form ()
 
 
 
-  const [ id, setId ] = useState();
 
   function handleChange ( e )
   {
@@ -69,33 +68,18 @@ function Form ()
 
 
 
-  // Update Method
-  function onUpdate ()
-  {
-    axios
-      .put( `http://localhost:3004/user/${ id }`, getValues() )
-      .then( res =>
-      {
-        console.log( 'success', res );
-        getUsers();
-      } )
-      .catch( err =>
-      {
-        console.log( err );
-      } );
-
-    reset();
-  }
-
-
   // delete method
   const deleteContact = id =>
   {
-    console.log( id );
     dispatch( deleteUser( id ) );
     getUsers();
-
   };
+
+
+
+  const [ id, setId ] = useState();
+
+
 
 
 
@@ -104,6 +88,7 @@ function Form ()
   function selectUser ( update )
   {
 
+    console.log( update );
     setId( update.id );
     setValue( 'name', update.name );
     setValue( 'email', update.email );
@@ -112,7 +97,16 @@ function Form ()
   }
 
 
+  // Update Method
+  function onUpdate ()
+  {
+    let updateData = getValues();
 
+    dispatch( editUser( { id }, updateData ) );
+    getUsers();
+
+    reset();
+  }
 
   return (
     <section className="container">

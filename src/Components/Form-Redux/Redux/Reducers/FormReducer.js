@@ -1,4 +1,4 @@
-import { ADD_USER, DELETE_USER, GET_USERS } from '../FormType';
+import { ADD_USER, DELETE_USER, EDIT_USER, GET_USERS } from '../FormType';
 
 
 const InitialState = {
@@ -28,12 +28,20 @@ export default function formReducer ( state = InitialState, action )
       };
 
     case DELETE_USER:
-      console.log( payload.id );
       return {
         ...state,
         ...payload.id,
         loading: false
       };
+
+    case EDIT_USER:
+      console.log( payload );
+      return {
+        ...state,
+        ...payload,
+        loading: false
+      };
+
     default: return state;
   }
 }

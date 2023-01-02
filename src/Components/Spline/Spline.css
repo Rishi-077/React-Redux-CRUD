@@ -25,6 +25,7 @@
 .spline {
   position: absolute;
   width: 100% !important;
+  height: 100%;
   margin: 0;
   top: 0;
   right: 0;
